@@ -1,0 +1,31 @@
+{
+  "name": "insurance_middleware",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MVitelli/insurance_middleware.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MVitelli/insurance_middleware/issues"
+  },
+  "homepage": "https://github.com/MVitelli/insurance_middleware#readme",
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "2.4.0"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
