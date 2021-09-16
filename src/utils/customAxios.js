@@ -1,18 +1,43 @@
 import axios from "axios";
-import ApiError from "./customError.js";
+import dotEnv from "dotenv";
 
-const customAxios = axios.create(process.env.API_URL);
+dotEnv.config();
+
+const customAxios = axios.create({ baseURL: process.env.API_URL });
+
+let apiToken = "";
+
+const refreshAPIToken = async () => {
+  const response = await customAxios.post("login", {
+    client_id: process.env.CLIENT_ID,
+    client_secret: process.env.CLIENT_SECRET
+  });
+  const { data } = response;
+  return `${data.type} ${data.token}`;
+};
+
+customAxios.interceptors.request.use(
+  (config) => {
+    const newConfig = config;
+    if (apiToken) {
+      newConfig.headers = {
+        Authorization: `${apiToken}`,
+        Accept: "application/json"
+      };
+    }
+    return newConfig;
+  },
+  (error) => Promise.reject(error)
+);
 
 customAxios.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const { response } = error;
+    const { response, config } = error;
     if (response) {
       if (response.status === 401) {
-        throw new ApiError(
-          401,
-          `${response.data?.error}: ${response.data?.message}`
-        );
+        apiToken = await refreshAPIToken();
+        return customAxios(config);
       }
     }
     return Promise.reject(error);
