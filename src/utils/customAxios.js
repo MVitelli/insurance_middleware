@@ -10,7 +10,7 @@ let apiToken = "";
 const refreshAPIToken = async () => {
   const response = await customAxios.post("login", {
     client_id: process.env.CLIENT_ID,
-    client_secret: process.env.CLIENT_SECRET
+    client_secret: process.env.CLIENT_SECRET,
   });
   const { data } = response;
   return `${data.type} ${data.token}`;
@@ -22,7 +22,7 @@ customAxios.interceptors.request.use(
     if (apiToken) {
       newConfig.headers = {
         Authorization: `${apiToken}`,
-        Accept: "application/json"
+        Accept: "application/json",
       };
     }
     return newConfig;

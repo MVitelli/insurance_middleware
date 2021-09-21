@@ -10,8 +10,10 @@ router.post("/login", async (req, res) => {
     const response = await login(username, password);
     res.send(response);
   } catch (error) {
-    console.log(error);
-    res.status(error.status).send({ error });
+    console.log(`error`, error);
+    const { status, ...info } = error;
+    if (status) res.status(status).send({ ...info });
+    else res.sendStatus(500);
   }
 });
 
