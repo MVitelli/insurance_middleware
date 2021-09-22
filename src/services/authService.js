@@ -1,18 +1,11 @@
 import jwt from "jsonwebtoken";
-import customAxios from "../utils/customAxios.js";
+import clientRepository from "../repositories/clientRepository.js";
 import ApiError from "../utils/customError.js";
 
 const comparePassword = (password) => password === process.env.CLIENT_SECRET;
 
-const getUsers = async () => customAxios.get("clients");
-
-const findUser = async (username) => {
-  const { data } = await getUsers();
-  return data.find((user) => user.name === username);
-};
-
 const generateAccessToken = async (username, password) => {
-  const user = await findUser(username);
+  const user = await clientRepository.findUser(username);
   if (!user || !comparePassword(password)) {
     throw new ApiError(401, 0, "Unauthorized");
   }

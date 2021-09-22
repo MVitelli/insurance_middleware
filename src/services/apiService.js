@@ -1,5 +1,5 @@
+import policyRepository from "../repositories/policyRepository.js";
 import ApiError from "../utils/customError.js";
-import customAxios from "../utils/customAxios.js";
 import { generateAccessToken } from "./authService.js";
 
 const login = async (username, password) => {
@@ -12,15 +12,16 @@ const login = async (username, password) => {
   };
 };
 
-const getPolicies = async (limit = 10, user) => {
-  let { data: policies } = await customAxios.get("policies");
-
-  if (user.role === "admin") policies = policies.slice(0, limit);
-  else policies = policies.filter((policy) => policy.clientId === user.id);
+const getPolicies = async (user) => {
+  const policies = policyRepository.getAll(user);
 
   return policies.map(({ clientId, ...keepAttrs }) => keepAttrs);
 };
 
+const getPolicyById = async () => {};
+
 const getClients = async () => {};
 
-export { login, getPolicies, getClients };
+const getClientById = async () => {};
+
+export { login, getPolicies, getClients, getPolicyById, getClientById };

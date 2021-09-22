@@ -35,6 +35,9 @@ customAxios.interceptors.response.use(
   async (error) => {
     const { response, config } = error;
     if (response) {
+      if (response.status === 304) {
+        return undefined;
+      }
       if (response.status === 401) {
         apiToken = await refreshAPIToken();
         return customAxios(config);
