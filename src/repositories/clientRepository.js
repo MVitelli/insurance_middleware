@@ -5,15 +5,15 @@ class ClientRepository extends AxiosRepository {
     super("clients");
   }
 
-  async data() {
-    if (!this.cache.length)
-      this.cache = await super.getAll({ role: "admin" }, 0);
-    return this.cache;
+  async findUser(username) {
+    const users = await super.getAll({ role: "admin" }, 0);
+    return users.find((user) => user.name === username);
   }
 
-  async findUser(username) {
-    const users = await this.data();
-    return users.find((user) => user.name === username);
+  async getAll(user, limit = this.limit, name) {
+    let clients = await super.getAll(user, limit);
+    if (name) clients = clients.filter((client) => client.name === name);
+    return clients;
   }
 }
 

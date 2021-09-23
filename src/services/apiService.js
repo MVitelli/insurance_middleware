@@ -1,6 +1,17 @@
-import policyRepository from "../repositories/policyRepository.js";
 import ApiError from "../utils/customError.js";
 import { generateAccessToken } from "./authService.js";
+import policyRepository from "../repositories/policyRepository.js";
+import clientRepository from "../repositories/clientRepository.js";
+
+const mapPolicies = (policies) =>
+  policies.map(({ id, amountInsured, inceptionDate }) => ({
+    id,
+    amountInsured,
+    inceptionDate,
+  }));
+
+const removeClientId = (policies) =>
+  policies.map(({ clientId, ...keepAttrs }) => keepAttrs);
 
 const login = async (username, password) => {
   if (!username || !password) throw new ApiError(400, 0, "Invalid Parameters");
@@ -12,16 +23,52 @@ const login = async (username, password) => {
   };
 };
 
-const getPolicies = async (user) => {
-  const policies = policyRepository.getAll(user);
+const getPolicies = async (user, limit) => {
+  const policies = await policyRepository.getAll(user, limit);
 
-  return policies.map(({ clientId, ...keepAttrs }) => keepAttrs);
+  return removeClientId(policies);
 };
 
-const getPolicyById = async () => {};
+const getPolicyById = async (user, id) => policyRepository.getById(user, id);
 
-const getClients = async () => {};
+const getClients = async (user, limit, name) => {
+  const clients = await clientRepository.getAll(user, limit, name);
 
-const getClientById = async () => {};
+  return Promise.all(
+    clients.map(async (client) => {
+      let policies = await policyRepository.getByClientId(user, client.id);
+      policies = mapPolicies(policies);
 
-export { login, getPolicies, getClients, getPolicyById, getClientById };
+      return {
+        ...client,
+        policies,
+      };
+    })
+  );
+};
+
+const getClientById = async (user, userId) => {
+  const client = await clientRepository.getById(user, userId);
+  let policies = await policyRepository.getByClientId(user, client.id);
+  policies = mapPolicies(policies);
+
+  return {
+    ...client,
+    policies,
+  };
+};
+
+const getClientPolicies = async (user, id) => {
+  const policies = await policyRepository.getByClientId(user, id);
+
+  return removeClientId(policies);
+};
+
+export {
+  login,
+  getPolicies,
+  getClients,
+  getPolicyById,
+  getClientById,
+  getClientPolicies,
+};

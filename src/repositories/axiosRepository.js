@@ -1,9 +1,8 @@
 import customAxios from "../utils/customAxios.js";
 
 class AxiosRepository {
-  constructor(resource, searchKey = "id", limit = 10) {
+  constructor(resource, limit = 10) {
     this.resource = resource;
-    this.searchKey = searchKey;
     this.limit = limit;
     this.cache = [];
     this.etag = "";
@@ -36,10 +35,10 @@ class AxiosRepository {
 
   async getById(user, id) {
     let data = await this.data();
-    data = data.find((element) => element[this.searchKey] === id);
+    data = data.find((element) => element.id === id);
 
     if (user.role !== "admin")
-      data = data.filter((element) => element[this.searchKey] === user.id);
+      data = data.filter((element) => element.id === user.id);
 
     return data;
   }
