@@ -1,5 +1,3 @@
-import ApiError from "../utils/customError.js";
-import { generateAccessToken } from "./authService.js";
 import policyRepository from "../repositories/policyRepository.js";
 import clientRepository from "../repositories/clientRepository.js";
 
@@ -7,21 +5,11 @@ const mapPolicies = (policies) =>
   policies.map(({ id, amountInsured, inceptionDate }) => ({
     id,
     amountInsured,
-    inceptionDate,
+    inceptionDate
   }));
 
 const removeClientId = (policies) =>
   policies.map(({ clientId, ...keepAttrs }) => keepAttrs);
-
-const login = async (username, password) => {
-  if (!username || !password) throw new ApiError(400, 0, "Invalid Parameters");
-  const token = await generateAccessToken(username, password);
-  return {
-    token,
-    type: "Bearer",
-    expires_in: process.env.TOKEN_EXPIRATION,
-  };
-};
 
 const getPolicies = async (user, limit) => {
   const policies = await policyRepository.getAll(user, limit);
@@ -42,7 +30,7 @@ const getClients = async (user, limit, name) => {
 
       return {
         ...client,
-        policies,
+        policies
       };
     })
   );
@@ -55,7 +43,7 @@ const getClientById = async (user, userId, shouldThrow) => {
 
   return {
     ...client,
-    policies,
+    policies
   };
 };
 
@@ -66,10 +54,9 @@ const getClientPolicies = async (user, id) => {
 };
 
 export {
-  login,
   getPolicies,
   getClients,
   getPolicyById,
   getClientById,
-  getClientPolicies,
+  getClientPolicies
 };
