@@ -5,9 +5,8 @@ class PolicyRepository extends AxiosRepository {
     super("policies");
   }
 
-  async getByClientId(user, clientId) {
-    const policies = await this.getAll(user, 0);
-    return policies.filter((policy) => policy.clientId === clientId);
+  async getByClientId(user, clientId, shouldThrow) {
+    return this.getByKey(user, clientId, "clientId", shouldThrow);
   }
 }
 

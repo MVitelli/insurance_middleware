@@ -21,6 +21,7 @@ customAxios.interceptors.request.use(
     const newConfig = config;
     if (apiToken) {
       newConfig.headers = {
+        ...config.headers,
         Authorization: `${apiToken}`,
         Accept: "application/json",
       };

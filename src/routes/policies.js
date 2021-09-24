@@ -23,7 +23,7 @@ router.get("/:id", async (req, res) => {
   const { user } = req;
 
   try {
-    const response = await getPolicyById(user, id);
+    const response = await getPolicyById(user, id, true);
     res.send(response);
   } catch (error) {
     console.log(`error`, error);

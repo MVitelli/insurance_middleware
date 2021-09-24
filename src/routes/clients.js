@@ -27,7 +27,7 @@ router.get("/:id", async (req, res) => {
   const { user } = req;
 
   try {
-    const response = await getClientById(user, id);
+    const response = await getClientById(user, id, true);
     res.send(response);
   } catch (error) {
     console.log(`error`, error);
@@ -42,7 +42,7 @@ router.get("/:id/policies", async (req, res) => {
   const { user } = req;
 
   try {
-    const response = await getClientPolicies(user, id);
+    const response = await getClientPolicies(user, id, true);
     res.send(response);
   } catch (error) {
     console.log(`error`, error);

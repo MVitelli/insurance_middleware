@@ -29,7 +29,8 @@ const getPolicies = async (user, limit) => {
   return removeClientId(policies);
 };
 
-const getPolicyById = async (user, id) => policyRepository.getById(user, id);
+const getPolicyById = async (user, id, shouldThrow) =>
+  policyRepository.getById(user, id, shouldThrow);
 
 const getClients = async (user, limit, name) => {
   const clients = await clientRepository.getAll(user, limit, name);
@@ -47,8 +48,8 @@ const getClients = async (user, limit, name) => {
   );
 };
 
-const getClientById = async (user, userId) => {
-  const client = await clientRepository.getById(user, userId);
+const getClientById = async (user, userId, shouldThrow) => {
+  const [client] = await clientRepository.getById(user, userId, shouldThrow);
   let policies = await policyRepository.getByClientId(user, client.id);
   policies = mapPolicies(policies);
 
@@ -59,7 +60,7 @@ const getClientById = async (user, userId) => {
 };
 
 const getClientPolicies = async (user, id) => {
-  const policies = await policyRepository.getByClientId(user, id);
+  const policies = await policyRepository.getByClientId(user, id, true);
 
   return removeClientId(policies);
 };
