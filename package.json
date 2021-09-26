@@ -7,7 +7,7 @@
     "start": "node app.js",
     "lint": "eslint . --ext .js",
     "lint-fix": "eslint . --ext .js --fix",
-    "keygen": "node -e console.log(require('crypto').randomBytes(64).toString('hex'))",
+    "keygen": "node -p \"require('crypto').randomBytes(64).toString('hex')\"",
     "test": "mocha --timeout 5000 './src/**/*.test.js'"
   },
   "repository": {
