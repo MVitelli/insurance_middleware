@@ -10,7 +10,7 @@ class AxiosRepository {
   }
 
   async data() {
-    const response = await customAxios(this.resource, {
+    const response = await customAxios.get(this.resource, {
       headers: {
         "If-None-Match": this.etag,
       },
@@ -30,7 +30,7 @@ class AxiosRepository {
     let data = await this.data();
 
     if (user.role === "admin") data = limit ? data.slice(0, limit) : data;
-    else data = data.filter((element) => element[this.searchKey] === user.id);
+    else data = data.filter((element) => element.id === user.id);
 
     return data;
   }

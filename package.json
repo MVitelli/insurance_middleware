@@ -8,7 +8,7 @@
     "lint": "eslint . --ext .js",
     "lint-fix": "eslint . --ext .js --fix",
     "keygen": "node -e console.log(require('crypto').randomBytes(64).toString('hex'))",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --timeout 5000 './src/**/*.test.js'"
   },
   "repository": {
     "type": "git",
@@ -22,12 +22,17 @@
   },
   "homepage": "https://github.com/MVitelli/insurance_middleware#readme",
   "devDependencies": {
+    "chai": "^4.3.4",
+    "chai-as-promised": "^7.1.1",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-prettier": "^4.0.0",
-    "prettier": "2.4.0"
+    "mocha": "^9.1.2",
+    "prettier": "2.4.0",
+    "sinon": "^11.1.2",
+    "supertest": "^6.1.6"
   },
   "dependencies": {
     "axios": "^0.21.4",

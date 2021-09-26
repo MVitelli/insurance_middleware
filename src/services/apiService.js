@@ -5,7 +5,7 @@ const mapPolicies = (policies) =>
   policies.map(({ id, amountInsured, inceptionDate }) => ({
     id,
     amountInsured,
-    inceptionDate
+    inceptionDate,
   }));
 
 const removeClientId = (policies) =>
@@ -30,7 +30,7 @@ const getClients = async (user, limit, name) => {
 
       return {
         ...client,
-        policies
+        policies,
       };
     })
   );
@@ -43,12 +43,12 @@ const getClientById = async (user, userId, shouldThrow) => {
 
   return {
     ...client,
-    policies
+    policies,
   };
 };
 
 const getClientPolicies = async (user, id) => {
-  const policies = await policyRepository.getByClientId(user, id, true);
+  const policies = await policyRepository.getByClientId(user, id);
 
   return removeClientId(policies);
 };
@@ -58,5 +58,5 @@ export {
   getClients,
   getPolicyById,
   getClientById,
-  getClientPolicies
+  getClientPolicies,
 };
