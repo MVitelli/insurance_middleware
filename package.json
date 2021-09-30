@@ -8,7 +8,7 @@
     "lint": "eslint . --ext .js",
     "lint-fix": "eslint . --ext .js --fix",
     "keygen": "node -p \"require('crypto').randomBytes(64).toString('hex')\"",
-    "test": "mocha --timeout 5000 './src/**/*.test.js'"
+    "test": "mocha --timeout 10000 './src/**/*.test.js'"
   },
   "repository": {
     "type": "git",
