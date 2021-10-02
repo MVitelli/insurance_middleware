@@ -15,7 +15,7 @@ const catchError = (err, res) => {
       .send({ message: "Unauthorized! Access Token expired!" });
   }
 
-  return res.sendStatus(401).send({ message: "Unauthorized!" });
+  return res.status(401).send({ message: "Unauthorized!" });
 };
 
 const generateAccessToken = async (username, password) => {
